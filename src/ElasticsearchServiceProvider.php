@@ -16,7 +16,7 @@ class ElasticsearchServiceProvider extends ServiceProvider
         if ($this->app->version() >= 5) {
             $this->publishes([
                 __DIR__ . '/config/elasticsearch.php' => config_path('elasticsearch.php'),
-            ], 'config');
+            ]);
         }
     }
 

@@ -622,6 +622,8 @@ trait ElasticsearchTrait
     {
         $instance = new static;
 
+        $items = $items['hits']['hits'];
+
         $items = array_map(function ($item) use ($instance) {
             return $instance->newFromHitBuilder($item);
         }, $items);

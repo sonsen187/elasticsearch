@@ -13,8 +13,12 @@ trait ElasticsearchClientTrait
      */
     public function getElasticSearchClient()
     {
-        $config = $this->getElasticConfig();
+        $hosts = $this->getElasticConfig('config.hosts');
+        $auth = $this->getElasticConfig('config.auth');
 
-        return ClientBuilder::fromConfig($config);
+        return ClientBuilder::create()
+            ->setHosts($hosts)
+            ->setBasicAuthentication($auth)
+            ->build();
     }
 }

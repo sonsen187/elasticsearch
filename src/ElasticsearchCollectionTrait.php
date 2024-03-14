@@ -53,7 +53,7 @@ trait ElasticsearchCollectionTrait
                 $params['body'][] = $item->getIndexDocumentData();
             }
 
-            $result = $this->getElasticSearchClient()->bulk($params);
+            $result = $this->getElasticSearchClient()->bulk($params)->asArray();
 
             // Check for errors
             if ( (array_key_exists('errors', $result) && $result['errors'] != false ) || (array_key_exists('Message', $result) && stristr('Request size exceeded', $result['Message']) !== false)) {
@@ -89,7 +89,7 @@ trait ElasticsearchCollectionTrait
             );
         }
 
-        return $this->getElasticSearchClient()->bulk($params);
+        return $this->getElasticSearchClient()->bulk($params)->asArray();
     }
 
     /**

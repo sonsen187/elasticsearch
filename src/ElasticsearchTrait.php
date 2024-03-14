@@ -293,7 +293,7 @@ trait ElasticsearchTrait
         // the index, or get the document from the index.
         $params['id'] = $this->getKey();
 
-        return $this->getElasticSearchClient()->index($params);
+        return $this->getElasticSearchClient()->index($params)->asArray();
     }
 
     /**
@@ -303,7 +303,7 @@ trait ElasticsearchTrait
      */
     public function removeFromIndex()
     {
-        return $this->getElasticSearchClient()->delete($this->getBasicEsParams());
+        return $this->getElasticSearchClient()->delete($this->getBasicEsParams())->asArray();
     }
 
     /**
@@ -318,7 +318,7 @@ trait ElasticsearchTrait
         // Get our document body data.
         $params['body']['doc'] = $this->getIndexDocumentData();
 
-        return $this->getElasticSearchClient()->update($params);
+        return $this->getElasticSearchClient()->update($params)->asArray();
     }
 
     /**
@@ -331,7 +331,7 @@ trait ElasticsearchTrait
      */
     public function getIndexedDocument()
     {
-        return $this->getElasticSearchClient()->get($this->getBasicEsParams());
+        return $this->getElasticSearchClient()->get($this->getBasicEsParams())->asArray();
     }
 
     /**

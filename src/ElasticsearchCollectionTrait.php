@@ -46,7 +46,6 @@ trait ElasticsearchCollectionTrait
                 $params['body'][] = array(
                     'index' => array(
                         '_id' => $item->getKey(),
-                        '_type' => $item->getTypeName(),
                         '_index' => $item->getIndexName(),
                     ),
                 );
@@ -85,7 +84,6 @@ trait ElasticsearchCollectionTrait
             $params['body'][] = array(
                 'delete' => array(
                     '_id' => $item->getKey(),
-                    '_type' => $item->getTypeName(),
                     '_index' => $item->getIndexName(),
                 ),
             );

@@ -14,11 +14,12 @@ trait ElasticsearchClientTrait
     public function getElasticSearchClient()
     {
         $hosts = $this->getElasticConfig('config.hosts');
-        $auth = $this->getElasticConfig('config.auth');
+        $user = $this->getElasticConfig('config.auth.user');
+        $pass = $this->getElasticConfig('config.auth.pass');
 
         return ClientBuilder::create()
             ->setHosts($hosts)
-            ->setBasicAuthentication($auth)
+            ->setBasicAuthentication($user, $pass)
             ->build();
     }
 }

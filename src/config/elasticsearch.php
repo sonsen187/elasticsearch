@@ -7,7 +7,7 @@ return [
         ],
         'auth' => [
             'user' => env('ELASTICSEARCH_USER', 'elastic'),
-            'pass' => env('ELASTICSEARCH_PASS'),
+            'pass' => env('ELASTICSEARCH_PASS', ''),
         ]
     ],
 ];

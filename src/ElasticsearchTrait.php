@@ -3,6 +3,7 @@
 namespace Sanoo\Elasticsearch;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use ReflectionMethod;
 
 trait ElasticsearchTrait
@@ -225,7 +226,7 @@ trait ElasticsearchTrait
             $params['body']['sort'] = $sort;
         }
 
-        $result = $instance->getElasticSearchClient()->search($params);
+        $result = $instance->getElasticSearchClient()->search($params)->asArray();
 
         return static::hydrateElasticResult($result);
     }
@@ -242,7 +243,7 @@ trait ElasticsearchTrait
     {
         $instance = new static;
 
-        $result = $instance->getElasticSearchClient()->search($params);
+        $result = $instance->getElasticSearchClient()->search($params)->asArray();
 
         return static::hydrateElasticResult($result);
     }
@@ -262,9 +263,10 @@ trait ElasticsearchTrait
 
         $params = $instance->getBasicEsParams();
 
-        $params['body']['query']['match']['_all'] = $term;
+        $params['body']['query']['multi_match']['query'] = $term;
+        $params['body']['query']['multi_match']['fields'] = ['*'];
 
-        $result = $instance->getElasticSearchClient()->search($params);
+        $result = $instance->getElasticSearchClient()->search($params)->asArray();
 
         return static::hydrateElasticResult($result);
     }
@@ -400,7 +402,7 @@ trait ElasticsearchTrait
 
         $mapping = $instance->getMapping();
 
-        return (empty($mapping)) ? false : true;
+        return !empty($mapping);
     }
 
     /**
@@ -414,7 +416,7 @@ trait ElasticsearchTrait
 
         $params = $instance->getBasicEsParams();
 
-        return $instance->getElasticSearchClient()->indices()->getMapping($params);
+        return $instance->getElasticSearchClient()->indices()->getMapping($params)->asArray();
     }
 
     /**
@@ -437,7 +439,7 @@ trait ElasticsearchTrait
 
         $mapping['body']['_doc'] = $params;
 
-        return $instance->getElasticSearchClient()->indices()->putMapping($mapping);
+        return $instance->getElasticSearchClient()->indices()->putMapping($mapping)->asArray();
     }
 
     /**
@@ -451,7 +453,7 @@ trait ElasticsearchTrait
 
         $params = $instance->getBasicEsParams();
 
-        return $instance->getElasticSearchClient()->indices()->deleteMapping($params);
+        return $instance->getElasticSearchClient()->indices()->deleteMapping($params)->asArray();
     }
 
     /**
@@ -516,7 +518,7 @@ trait ElasticsearchTrait
             ];
         }
 
-        return $client->indices()->create($index);
+        return $client->indices()->create($index)->asArray();
     }
 
     /**
@@ -534,7 +536,7 @@ trait ElasticsearchTrait
             'index' => $instance->getIndexName(),
         );
 
-        return $client->indices()->delete($index);
+        return $client->indices()->delete($index)->asArray();
     }
 
     /**

@@ -3,8 +3,6 @@
 namespace Sanoo\Elasticsearch;
 
 /**
- * Elasticquent Collection Trait
- *
  * Elasticsearch functions that you
  * can run on collections of documents.
  */
@@ -13,15 +11,15 @@ trait ElasticsearchCollectionTrait
     use ElasticsearchClientTrait;
 
     /**
-     * @var int The number of records (ie. models) to send to Elasticsearch in one go
-     * Also, the number of models to get from the database at a time using Eloquent's chunk()
+     * @var int The amount records (i.e., models) to send to Elasticsearch in one go
+     * Also, the amount models to get from the database at a time using Eloquent chunk()
      */
     static public $entriesToSendToElasticSearchInOneGo = 500;
 
     /**
      * Add To Index
      *
-     * Add all documents in this collection to to the Elasticsearch document index.
+     * Add all documents in this collection to the Elasticsearch document index.
      *
      * @return null|array
      */
@@ -34,8 +32,8 @@ trait ElasticsearchCollectionTrait
         // Use an stdClass to store result of elasticsearch operation
         $result = new \stdClass;
 
-        // Iterate according to the amount configured, and put that iteration's worth of records into elastic search
-        // This is done so that we do not exceed the maximum request size
+        // Iterate according to the amount configured, and put that iteration’s worth of records into elastic search
+        // This is done so that we do not exceed the maximum request size.
         $all = $this->all();
         $iteration = 0;
         do {
@@ -60,7 +58,7 @@ trait ElasticsearchCollectionTrait
                 break;
             }
 
-            // Remove vars immediately to prevent them hanging around in memory, in case we have a large number of iterations
+            // Remove vars immediately to prevent them hanging around in memory, if we have many iterations.
             unset($chunk, $params);
 
             ++$iteration;

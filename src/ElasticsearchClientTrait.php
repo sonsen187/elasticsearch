@@ -2,22 +2,19 @@
 
 namespace Sanoo\Elasticsearch;
 
+use Elastic\Elasticsearch\ClientBuilder;
+
 trait ElasticsearchClientTrait
 {
     use ElasticsearchConfigTrait;
 
     /**
-     * Get ElasticSearch Client
-     *
-     * @return \Elasticsearch\Client
+     * @return mixed
      */
     public function getElasticSearchClient()
     {
         $config = $this->getElasticConfig();
 
-        // elasticsearch v2.0 using builder
-        if (class_exists('\Elasticsearch\ClientBuilder')) {
-            return \Elasticsearch\ClientBuilder::fromConfig($config);
-        }
+        return ClientBuilder::fromConfig($config);
     }
 }
